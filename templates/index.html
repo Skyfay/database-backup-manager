@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+        }
+
+        .section {
+            flex: 1;
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin: 10px;
+        }
+
+        .section h2 {
+            margin-top: 0;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="section">
+        <h2>Database Connection</h2>
+        <div class="form-group">
+            <label for="db-type">Database Type:</label>
+            <select id="db-type">
+                <option value="mysql">MySQL</option>
+                <option value="postgresql">PostgreSQL</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="db-connection-name">Name:</label>
+            <input type="text" id="db-connection-name" placeholder="Connection Name">
+        </div>
+        <div class="form-group">
+            <label for="db-ip">IP Address:</label>
+            <input type="text" id="db-ip" placeholder="Enter IP Address">
+        </div>
+        <div class="form-group">
+            <label for="db-port">Port:</label>
+            <input type="text" id="db-port" placeholder="Enter Port">
+        </div>
+        <div class="form-group">
+            <label for="db-user">User:</label>
+            <input type="text" id="db-user" placeholder="Database Username">
+        </div>
+        <div class="form-group">
+            <label for="db-password">Password:</label>
+            <input type="text" id="db-password" placeholder="Database User Password">
+        </div>
+        <div class="form-group">
+            <label for="db-name">Database:</label>
+            <input type="text" id="db-name" placeholder="Database Name (If empty the whole database will be saved. ">
+        </div>
+        <button id="test-connection">Test Connection</button>
+        <button id="save-connection">Save Connection</button>
+    </div>
+        <div class="section">
+        <h2>Backup Location</h2>
+        <div class="form-group">
+            <label for="backup-location-type">Select Location Type:</label>
+            <select id="backup-location-type">
+                <option value="local">Local</option>
+                <option value="s3">S3 Storage</option>
+                <!-- Add more options as needed -->
+            </select>
+        </div>
+        <div class="form-group" id="local-backup">
+            <label for="local-path">Local Path:</label>
+            <input type="text" id="local-path" placeholder="Local Backup Path">
+        </div>
+        <div class="form-group" id="s3-backup">
+            <label for="s3-bucket">Bucket:</label>
+            <input type="text" id="s3-bucket" placeholder="S3 Bucket Name">
+        </div>
+        <div class="form-group" id="s3-path">
+            <label for="s3-path">Path:</label>
+            <input type="text" id="s3-path" placeholder="S3 Path">
+        </div>
+        <div class="form-group" id="s3-region">
+            <label for="s3-region">Region:</label>
+            <input type="text" id="s3-region" placeholder="S3 Region">
+        </div>
+        <div class="form-group" id="s3-host">
+            <label for="s3-host">Host (Optional):</label>
+            <input type="text" id="s3-host" placeholder="S3 Host (Optional)">
+        </div>
+        <button id="save-backup-location">Save Backup Location</button>
+    </div>
+    <div class="section">
+        <h2>Backup</h2>
+        <div class="form-group">
+            <label for="backup-db">Select Database Connection:</label>
+            <select id="backup-db">
+                <option value="database1">Database 1</option>
+                <option value="database2">Database 2</option>
+                <!-- Add more options as needed -->
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="backup-time">Backup Time:</label>
+            <input type="time" id="backup-time">
+        </div>
+        <div class="form-group">
+            <label for="backup-frequency">Backup Frequency:</label>
+            <select id="backup-frequency">
+                <option value="daily">Daily</option>
+                <option value="weekly">Weekly</option>
+                <!-- Add more options as needed -->
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="backup-location">Backup Location:</label>
+            <select id="backup-location">
+                <option value="location 1 - local">Local</option>
+                <option value="location 2 - s3">S3 Storage</option>
+                <!-- Add more options as needed -->
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="backup-encryption">Encryption Password:</label>
+            <input type="password" id="backup-encryption" placeholder="Encryption Password">
+        </div>
+        <button id="save-backup">Save Backup</button>
+    </div>
+</div>
+<div class="container">
+    <div class="section" id="backup-jobs">
+    <h2>Backup Jobs</h2>
+    <div class="backup-job">
+        <h3>Backup Job 1</h3>
+        <p>Status: <span class="status-success">Successful</span></p>
+        <p>Backup size: 2 MB</p>
+        <p>Last Run: August 27, 2023, 10:01 AM</p>
+        <p>Next Run: August 28, 2023, 10:00 AM</p>
+        <button class="run-job">Run Job</button>
+    </div>
+    <div class="backup-job">
+        <h3>Backup Job 2</h3>
+        <p>Status: <span class="status-failure">Failed</span></p>
+        <p>Backup size: 256 KB</p>
+        <p>Last Run: August 26, 2023, 11:31 AM</p>
+        <p>Next Run: August 27, 2023, 11:30 AM</p>
+        <button class="run-job">Run Job</button>
+    </div>
+    <!-- Add more backup jobs as needed -->
+</div>
+</body>
+</html>
