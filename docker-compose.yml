@@ -1,0 +1,13 @@
+services:
+  app:
+    build: .
+    container_name: database-backup-manager
+    command: python src/manage.py runserver 7000
+    ports:
+      - 7000:7000
+    volumes:
+      - .:/app
+
+
+# docker-compose up --build -d
+# command: django-admin startproject app
