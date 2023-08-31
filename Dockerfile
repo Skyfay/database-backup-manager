@@ -8,4 +8,4 @@ RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
 
 COPY ./src ./src
 
-CMD ["python", "src/manage.py", "runserver", "7000"]
+CMD ["python3", "-m", "flask", "run", "--host=0.0.0.0"]

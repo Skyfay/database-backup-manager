@@ -2,9 +2,9 @@ services:
   app:
     build: .
     container_name: database-backup-manager
-    command: python src/manage.py runserver 7000
+    command: python src/app.py
     ports:
-      - 7000:7000
+      - 5000:5000
     volumes:
       - .:/app
 
