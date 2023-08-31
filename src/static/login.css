@@ -1,0 +1,53 @@
+@import "default.css";
+
+:root {
+    font-family: var(--font-family);
+    background-color: var(--background-color);
+}
+
+body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-container {
+    width: 402px; /* oder deine gewünschte Breite */
+    height: 311px; /* oder deine gewünschte Höhe */
+    background-color: var(--container-color);
+    text-align: center;
+    padding: 20px;
+    border-radius: var(--border-radius)
+}
+
+h1 {
+    margin-top: 0px;
+    color: var(--primary-text-color);
+    padding-bottom: 25px;
+}
+
+.input-field {
+    background-color: var(--secondary-color);
+    border-radius: var(--border-radius);
+    border-color: var(--partitions);
+    border-style: solid;
+    border-width: 1px;
+    width: 363px;
+    height: 41px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    padding-left: 14px;
+}
+
+.btn {
+    margin-top: 45px;
+    width: 168px;
+    height: 48px;
+    border-radius: var(--border-radius);
+    border-color: transparent;
+    color: var(--white);
+    background-color: var(--primary-color);
+    font-size: 14px;
+}
