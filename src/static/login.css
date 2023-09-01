@@ -51,3 +51,7 @@ h1 {
     background-color: var(--primary-color);
     font-size: 14px;
 }
+
+.btn:hover {
+    background-color: var(--btn-hover);
+}
