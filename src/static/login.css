@@ -13,13 +13,30 @@ body, html {
     align-items: center;
 }
 
+.container {
+    position: relative;
+}
+
+.error-container {
+    color: red;
+    position: absolute;
+    top: -40px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    z-index: 2;
+    display: none;
+}
+
 .login-container {
-    width: 402px; /* oder deine gewünschte Breite */
-    height: 311px; /* oder deine gewünschte Höhe */
+    width: 402px;
+    height: 311px;
     background-color: var(--container-color);
     text-align: center;
     padding: 20px;
-    border-radius: var(--border-radius)
+    border-radius: var(--border-radius);
+    position: relative;
+    z-index: 1;
 }
 
 h1 {
@@ -55,3 +72,4 @@ h1 {
 .btn:hover {
     background-color: var(--btn-hover);
 }
+

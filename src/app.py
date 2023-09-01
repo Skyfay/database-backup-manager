@@ -1,7 +1,20 @@
+# Import the modules we need.
 from flask import Flask, render_template, request, redirect, url_for, session
+from livereload import Server
+from server import database_setup
+import os
+import sqlite3
 
+# Create the app.
 app = Flask(__name__)
-app.secret_key = 'aklsjfadslkfjalkdsöfjlkadsjflkklj2lkj4lk32j4lk32'
+# Set the secret key for the session.
+app.secret_key = 'my_secret_key'
+# Set the path to the SQLite Database.
+db_path = os.path.join(os.path.dirname(__file__), 'data', 'local.db')
+
+
+# Add the SQLite Database if not exist.
+database_setup.add_database()
 
 @app.route('/')
 def home():
@@ -9,18 +22,28 @@ def home():
         return render_template('index.html', username=session['username'])
     return redirect(url_for('login'))
 
+# Add the login route.
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        # Here, you should perform your authentication logic (e.g., checking username and password)
-        # For this example, let's assume the username is "admin" and the password is "password"
-        if username == 'admin' and password == 'password':
+
+        database_setup.create_auth_table()  # Create the 'auth' table if it doesn't exist
+
+        # Perform authentication logic by checking the username and password in the 'auth' table
+        conn = sqlite3.connect(db_path)
+        cursor = conn.cursor()
+        cursor.execute('SELECT * FROM auth WHERE username = ? AND password = ?', (username, password))
+        user = cursor.fetchone()
+        conn.close()
+
+        if user:
             session['username'] = username
             return redirect(url_for('home'))
         else:
-            return 'Invalid login credentials'
+            return render_template('login.html', show_error=True)
+
     return render_template('login.html')
 
 @app.route('/logout')
@@ -29,4 +52,6 @@ def logout():
     return redirect(url_for('login'))
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    server = Server(app.wsgi_app)
+    server.serve()
+    #app.run(host='0.0.0.0', port=5000)

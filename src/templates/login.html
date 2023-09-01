@@ -4,10 +4,15 @@
     <title>Login Page</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='default.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+    <!-- to build the page with WebStorm -->
     <link rel="stylesheet" href="/static/default.css">
     <link rel="stylesheet" href="/static/login.css">
 </head>
 <body>
+<div class="container">
+    <div class="error-container" id="login-error">
+        Invalid login credentials. Please try again.
+    </div>
     <div class="login-container">
         <h1>Login</h1>
         <form method="POST" action="/login">
@@ -16,5 +21,16 @@
             <button class="btn" type="submit">Login</button>
         </form>
     </div>
+    </div>
+        {% if show_error %}
+        <script>
+            var errorDiv = document.getElementById('login-error');
+            errorDiv.style.display = 'block';
+
+            setTimeout(function() {
+                errorDiv.style.display = 'none';
+            }, 2000); // 2000 Millisekunden (2 Sekunden)
+        </script>
+        {% endif %}
 </body>
 </html>

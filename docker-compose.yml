@@ -1,8 +1,14 @@
 services:
   app:
     build: .
+    entrypoint:
+      - flask
+      - run
+      - --host=0.0.0.0
     container_name: database-backup-manager
-    command: python src/app.py
+    environment:
+      FLASK_DEBUG: 1
+      FLASK_APP: src/app.py
     ports:
       - 5000:5000
     volumes:
