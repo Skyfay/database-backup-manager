@@ -59,6 +59,10 @@ def logout():
     session.pop('username', None)
     return redirect(url_for('login'))
 
+@app.errorhandler(404)
+def not_found(error):
+    return render_template('404.html'), 404
+
 if __name__ == '__main__':
     server = Server(app.wsgi_app)
     server.serve()
