@@ -1,11 +1,10 @@
 import sqlite3
 import os
 def add_database():
-    # Der Pfad zur SQLite-Datenbankdatei
+    # The path to the SQLite Database.
     db_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'local.db')
-    # Verbindung zur Datenbank herstellen oder erstellen, wenn sie nicht vorhanden ist
+    # Create the database if it doesn't exist.
     conn = sqlite3.connect(db_path)
-    print("INFO: Database created at or connected.")
     conn.close()
 
 def create_auth_table():
@@ -18,11 +17,11 @@ def create_auth_table():
                       password TEXT NOT NULL
                    )''')
 
-    # Überprüfen, ob die Tabelle leer ist (keine Einträge)
+    # Check if the table is empty.
     cursor.execute('SELECT COUNT(*) FROM auth')
     count = cursor.fetchone()[0]
 
-    # Wenn die Tabelle leer ist, fügen Sie den Standardbenutzer 'Admin' hinzu
+    # If the table is empty, add the default admin user.
     if count == 0:
         cursor.execute('INSERT INTO auth (username, password) VALUES (?, ?)', ('Admin', 'Password'))
         conn.commit()

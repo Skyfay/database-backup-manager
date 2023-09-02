@@ -26,24 +26,25 @@ def home():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
+        # Get the username and password from the form.
         username = request.form['username']
         password = request.form['password']
-
-        database_setup.create_auth_table()  # Create the 'auth' table if it doesn't exist
-
+        # Create the 'auth' table if it doesn't exist
+        database_setup.create_auth_table()
         # Perform authentication logic by checking the username and password in the 'auth' table
         conn = sqlite3.connect(db_path)
         cursor = conn.cursor()
         cursor.execute('SELECT * FROM auth WHERE username = ? AND password = ?', (username, password))
         user = cursor.fetchone()
         conn.close()
-
+        # If the user exists, add the username to the session and redirect to the home page.
         if user:
             session['username'] = username
             return redirect(url_for('home'))
+        # If the user doesn't exist, show an error message.
         else:
             return render_template('login.html', show_error=True)
-
+    # If the request method is GET, show the login page.
     return render_template('login.html')
 
 @app.route('/logout')
