@@ -6,9 +6,11 @@
 
     <link rel="stylesheet" href="{{ url_for('static', filename='default.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='multisite.css') }}">
     <!-- to build the page with WebStorm -->
     <link rel="stylesheet" href="/static/default.css">
     <link rel="stylesheet" href="/static/index.css">
+    <link rel="stylesheet" href="/static/multisite.css">
 </head>
 <body>
 
@@ -44,7 +46,10 @@
             </button>
         </div>
         <div class="dark-white-mode">
-
+            <div class="appereance-button">
+                <button class="light-switch-btn-left light-switch-btn-active">Light</button>
+                <button class="light-switch-btn-right">Dark</button>
+            </div>
         </div>
     </div>
     <div class="line">
