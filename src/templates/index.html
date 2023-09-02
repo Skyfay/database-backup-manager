@@ -2,188 +2,53 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Database Management</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
+    <title>Dashboard</title>
 
-        .container {
-            display: flex;
-            justify-content: space-between;
-            padding: 20px;
-        }
-
-        .section {
-            flex: 1;
-            border: 1px solid #ccc;
-            padding: 20px;
-            margin: 10px;
-        }
-
-        .section h2 {
-            margin-top: 0;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-        input {
-            width: 100%;
-            padding: 5px;
-            border: 1px solid #ccc;
-            border-radius: 3px;
-        }
-
-        button {
-            padding: 10px 15px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='default.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+    <!-- to build the page with WebStorm -->
+    <link rel="stylesheet" href="/static/default.css">
+    <link rel="stylesheet" href="/static/index.css">
 </head>
 <body>
-<div class="container">
-    <div class="section">
-        <h2>Database Connection</h2>
-        <div class="form-group">
-            <label for="db-type">Database Type:</label>
-            <select id="db-type">
-                <option value="mysql">MySQL</option>
-                <option value="postgresql">PostgreSQL</option>
-            </select>
+
+    <div class="sidebar">
+        <div class="sidebar-brand">
+            <img src="../assets/svg/database-logo.svg" width="24" height="21">
+            <a>Manager</a>
         </div>
-        <div class="form-group">
-            <label for="db-connection-name">Name:</label>
-            <input type="text" id="db-connection-name" placeholder="Connection Name">
+        <div class="button-container">
+            <button class="sidebar-button sidebar-button-active">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M120-520v-320h320v320H120Zm0 400v-320h320v320H120Zm400-400v-320h320v320H520Zm0 400v-320h320v320H520ZM200-600h160v-160H200v160Zm400 0h160v-160H600v160Zm0 400h160v-160H600v160Zm-400 0h160v-160H200v160Zm400-400Zm0 240Zm-240 0Zm0-240Z"/></svg>
+                <a>Dashboard</a>
+            </button>
+            <button class="sidebar-button">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M480-120q-151 0-255.5-46.5T120-280v-400q0-66 105.5-113T480-840q149 0 254.5 47T840-680v400q0 67-104.5 113.5T480-120Zm0-479q89 0 179-25.5T760-679q-11-29-100.5-55T480-760q-91 0-178.5 25.5T200-679q14 30 101.5 55T480-599Zm0 199q42 0 81-4t74.5-11.5q35.5-7.5 67-18.5t57.5-25v-120q-26 14-57.5 25t-67 18.5Q600-528 561-524t-81 4q-42 0-82-4t-75.5-11.5Q287-543 256-554t-56-25v120q25 14 56 25t66.5 18.5Q358-408 398-404t82 4Zm0 200q46 0 93.5-7t87.5-18.5q40-11.5 67-26t32-29.5v-98q-26 14-57.5 25t-67 18.5Q600-328 561-324t-81 4q-42 0-82-4t-75.5-11.5Q287-343 256-354t-56-25v99q5 15 31.5 29t66.5 25.5q40 11.5 88 18.5t94 7Z"/></svg>
+                <a>Databases</a>
+            </button>
+            <button class="sidebar-button">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="m438-426 198-198-57-57-141 141-56-56-57 57 113 113Zm42 240q122-112 181-203.5T720-552q0-109-69.5-178.5T480-800q-101 0-170.5 69.5T240-552q0 71 59 162.5T480-186Zm0 106Q319-217 239.5-334.5T160-552q0-150 96.5-239T480-880q127 0 223.5 89T800-552q0 100-79.5 217.5T480-80Zm0-480Z"/></svg>
+                <a>Destinations</a>
+            </button>
+            <button class="sidebar-button">
+                <svg xmlns="http://www.w3.org/2000/svg" class="svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M480-400q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0 280q-139 0-241-91.5T122-440h82q14 104 92.5 172T480-200q117 0 198.5-81.5T760-480q0-117-81.5-198.5T480-760q-69 0-129 32t-101 88h110v80H120v-240h80v94q51-64 124.5-99T480-840q75 0 140.5 28.5t114 77q48.5 48.5 77 114T840-480q0 75-28.5 140.5t-77 114q-48.5 48.5-114 77T480-120Z"/></svg>
+                <a>Backups</a>
+            </button>
+            <button class="sidebar-button">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 20 130 84.5T720-560v280h80v80H160Zm320-300Zm0 420q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-280h320v-280q0-66-47-113t-113-47q-66 0-113 47t-47 113v280Z"/></svg>
+                <a>Notifications</a>
+            </button>
+            <button class="sidebar-button">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="m370-80-16-128q-13-5-24.5-12T307-235l-119 50L78-375l103-78q-1-7-1-13.5v-27q0-6.5 1-13.5L78-585l110-190 119 50q11-8 23-15t24-12l16-128h220l16 128q13 5 24.5 12t22.5 15l119-50 110 190-103 78q1 7 1 13.5v27q0 6.5-2 13.5l103 78-110 190-118-50q-11 8-23 15t-24 12L590-80H370Zm112-260q58 0 99-41t41-99q0-58-41-99t-99-41q-59 0-99.5 41T342-480q0 58 40.5 99t99.5 41Zm0-80q-25 0-42.5-17.5T422-480q0-25 17.5-42.5T482-540q25 0 42.5 17.5T542-480q0 25-17.5 42.5T482-420Zm-2-60Zm-40 320h79l14-106q31-8 57.5-23.5T639-327l99 41 39-68-86-65q5-14 7-29.5t2-31.5q0-16-2-31.5t-7-29.5l86-65-39-68-99 42q-22-23-48.5-38.5T533-694l-13-106h-79l-14 106q-31 8-57.5 23.5T321-633l-99-41-39 68 86 64q-5 15-7 30t-2 32q0 16 2 31t7 30l-86 65 39 68 99-42q22 23 48.5 38.5T427-266l13 106Z"/></svg>
+                <a>Settings</a>
+            </button>
         </div>
-        <div class="form-group">
-            <label for="db-ip">IP Address:</label>
-            <input type="text" id="db-ip" placeholder="Enter IP Address">
+        <div class="dark-white-mode">
+
         </div>
-        <div class="form-group">
-            <label for="db-port">Port:</label>
-            <input type="text" id="db-port" placeholder="Enter Port">
-        </div>
-        <div class="form-group">
-            <label for="db-user">User:</label>
-            <input type="text" id="db-user" placeholder="Database Username">
-        </div>
-        <div class="form-group">
-            <label for="db-password">Password:</label>
-            <input type="text" id="db-password" placeholder="Database User Password">
-        </div>
-        <div class="form-group">
-            <label for="db-name">Database:</label>
-            <input type="text" id="db-name" placeholder="Database Name (If empty the whole database will be saved. ">
-        </div>
-        <button id="test-connection">Test Connection</button>
-        <button id="save-connection">Save Connection</button>
     </div>
-        <div class="section">
-        <h2>Backup Location</h2>
-        <div class="form-group">
-            <label for="backup-location-type">Select Location Type:</label>
-            <select id="backup-location-type">
-                <option value="local">Local</option>
-                <option value="s3">S3 Storage</option>
-                <!-- Add more options as needed -->
-            </select>
-        </div>
-        <div class="form-group" id="local-backup">
-            <label for="local-path">Local Path:</label>
-            <input type="text" id="local-path" placeholder="Local Backup Path">
-        </div>
-        <div class="form-group" id="s3-backup">
-            <label for="s3-bucket">Bucket:</label>
-            <input type="text" id="s3-bucket" placeholder="S3 Bucket Name">
-        </div>
-        <div class="form-group" id="s3-path">
-            <label for="s3-path">Path:</label>
-            <input type="text" id="s3-path" placeholder="S3 Path">
-        </div>
-        <div class="form-group" id="s3-region">
-            <label for="s3-region">Region:</label>
-            <input type="text" id="s3-region" placeholder="S3 Region">
-        </div>
-        <div class="form-group" id="s3-host">
-            <label for="s3-host">Host (Optional):</label>
-            <input type="text" id="s3-host" placeholder="S3 Host (Optional)">
-        </div>
-        <button id="save-backup-location">Save Backup Location</button>
+    <div class="line">
     </div>
-    <div class="section">
-        <h2>Backup</h2>
-        <div class="form-group">
-            <label for="backup-db">Select Database Connection:</label>
-            <select id="backup-db">
-                <option value="database1">Database 1</option>
-                <option value="database2">Database 2</option>
-                <!-- Add more options as needed -->
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="backup-time">Backup Time:</label>
-            <input type="time" id="backup-time">
-        </div>
-        <div class="form-group">
-            <label for="backup-frequency">Backup Frequency:</label>
-            <select id="backup-frequency">
-                <option value="daily">Daily</option>
-                <option value="weekly">Weekly</option>
-                <!-- Add more options as needed -->
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="backup-location">Backup Location:</label>
-            <select id="backup-location">
-                <option value="location 1 - local">Local</option>
-                <option value="location 2 - s3">S3 Storage</option>
-                <!-- Add more options as needed -->
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="backup-encryption">Encryption Password:</label>
-            <input type="password" id="backup-encryption" placeholder="Encryption Password">
-        </div>
-        <button id="save-backup">Save Backup</button>
-    </div>
-</div>
-<div class="container">
-    <div class="section" id="backup-jobs">
-    <h2>Backup Jobs</h2>
-    <div class="backup-job">
-        <h3>Backup Job 1</h3>
-        <p>Status: <span class="status-success">Successful</span></p>
-        <p>Backup size: 2 MB</p>
-        <p>Last Run: August 27, 2023, 10:01 AM</p>
-        <p>Next Run: August 28, 2023, 10:00 AM</p>
-        <button class="run-job">Run Job</button>
-    </div>
-    <div class="backup-job">
-        <h3>Backup Job 2</h3>
-        <p>Status: <span class="status-failure">Failed</span></p>
-        <p>Backup size: 256 KB</p>
-        <p>Last Run: August 26, 2023, 11:31 AM</p>
-        <p>Next Run: August 27, 2023, 11:30 AM</p>
-        <button class="run-job">Run Job</button>
-    </div>
-    <!-- Add more backup jobs as needed -->
-</div>
+
 </body>
 </html>

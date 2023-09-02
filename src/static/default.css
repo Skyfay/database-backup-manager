@@ -11,7 +11,9 @@
     --btn-hover: #7b67ff;
     --font-family: 'Poppins', sans-serif;
     --font-size: 16px;
+    --font-size-14: 14px;
     --border-radius: 16px;
+    --sidebar-button: #676D7C;
 }
 
 ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
