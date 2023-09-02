@@ -6,7 +6,7 @@
     --partitions: #e5e4eb;
     --container-color: #ffffff;
     --background-color: #f8f7ff;
-    --placeholder: #999999;
+    --placeholder: #d5d5dc;
     --white: #ffffff;
     --btn-hover: #7b67ff;
     --font-family: 'Poppins', sans-serif;
@@ -14,6 +14,7 @@
     --font-size-14: 14px;
     --border-radius: 16px;
     --sidebar-button: #676D7C;
+    --icon-color: #969ca6;
 }
 
 ::-webkit-input-placeholder { /* WebKit, Blink, Edge */

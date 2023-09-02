@@ -22,6 +22,12 @@ def home():
         return render_template('index.html', username=session['username'])
     return redirect(url_for('login'))
 
+@app.route('/databases')
+def databases():
+    if 'username' in session:
+        return render_template('databases.html', username=session['username'])
+    return redirect(url_for('login'))
+
 # Add the login route.
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -46,6 +52,7 @@ def login():
             return render_template('login.html', show_error=True)
     # If the request method is GET, show the login page.
     return render_template('login.html')
+
 
 @app.route('/logout')
 def logout():

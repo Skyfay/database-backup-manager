@@ -1,4 +1,4 @@
-@import "default.css";
+@import "css/default.css";
 
 :root {
     font-family: var(--font-family);
@@ -47,7 +47,7 @@
 }
 
 svg {
-    fill: var(--placeholder);
+    fill: var(--icon-color);
 }
 
 .sidebar-button-active svg {
@@ -171,3 +171,81 @@ svg {
     Here ist the sidebar CSS (End)
 
  */
+
+
+/*
+
+    Main Container CSS (Start)
+
+ */
+
+.main-container {
+    padding-left: 232px;
+    color: var(--primary-text-color);
+    margin-left: 40px;
+}
+
+.top-container {
+    font-size: 32px;
+    margin-top: 34px;
+}
+
+.element-container {
+    display: flex;
+    margin-top: 50px;
+}
+
+.data-container {
+    background-color: var(--container-color);
+    width: 402px;
+    max-width: 402px;
+    height: 664px;
+    max-height: 664px;
+    border-radius: var(--border-radius);
+    flex: 1;
+    margin-right: 24px;
+}
+
+.setup-container {
+    background-color: var(--container-color);
+    width: 702px;
+    max-width: 702px;
+    height: 664px;
+    max-height: 664px;
+    border-radius: var(--border-radius);
+    flex: 2;
+    margin-right: 40px;
+}
+
+.container-text {
+    margin-left: 24px;
+    margin-top: 16px;
+}
+
+.container-form {
+    margin-top: 58px;
+    margin-left: 25px;
+}
+
+.container-form-items {
+    width: 629px;
+    height: 41px;
+    display: flex;
+    margin-top: 14px;
+}
+
+.container-form-items-text {
+    width: 185px;
+}
+
+.container-form-items-select {
+    width: 444px;
+    background-color: var(--background-color);
+    border-style: solid;
+    border-color: var(--placeholder);
+    border-width: 1px;
+    border-radius: var(--border-radius);
+    padding-left: 17px;
+    padding-right: 17px;
+}
+
