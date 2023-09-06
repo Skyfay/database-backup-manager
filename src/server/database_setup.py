@@ -1,30 +1,45 @@
-import sqlite3
+from flask_sqlalchemy import SQLAlchemy
 import os
-def add_database():
-    # The path to the SQLite Database.
+
+# Add SQLAlchemy-Objekt
+db = SQLAlchemy()
+
+def get_db_uri_and_path():
+    # Pfad zur SQLite-Datenbank
     db_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'local.db')
-    # Create the database if it doesn't exist.
-    conn = sqlite3.connect(db_path)
-    conn.close()
+    db_uri = f'sqlite:///{db_path}'
+    return db_uri, db_path
 
-def create_auth_table():
-    db_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'local.db')
-    conn = sqlite3.connect(db_path)
-    cursor = conn.cursor()
-    cursor.execute('''CREATE TABLE IF NOT EXISTS auth (
-                      id INTEGER PRIMARY KEY,
-                      username TEXT UNIQUE NOT NULL,
-                      password TEXT NOT NULL
-                   )''')
+# Database model for the 'auth' table
+class Auth(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(20), unique=True, nullable=False)
+    password = db.Column(db.String(100), nullable=False)
 
-    # Check if the table is empty.
-    cursor.execute('SELECT COUNT(*) FROM auth')
-    count = cursor.fetchone()[0]
+    def __repr__(self):
+        return f"Auth('{self.username}')"
 
-    # If the table is empty, add the default admin user.
-    if count == 0:
-        cursor.execute('INSERT INTO auth (username, password) VALUES (?, ?)', ('Admin', 'Password'))
-        conn.commit()
+# Add the SQLite Database if not exist.
+def add_database(app):
+    db_uri, db_path = get_db_uri_and_path()
+    if not hasattr(app, 'extensions') or 'sqlalchemy' not in app.extensions:
+        app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
+        db.init_app(app)
 
-    conn.close()
+        with app.app_context():
+            if not os.path.exists(db_path):
+                db.create_all()
 
+# Create the 'auth' table if it doesn't exist and add the default admin user if no user exists.
+def create_auth_table(app):
+    with app.app_context():
+        db.create_all()
+
+        # Überprüfen, ob die Tabelle leer ist
+        count = db.session.query(Auth).count()
+
+        # Falls die Tabelle leer ist, Standard-Admin-Benutzer hinzufügen
+        if count == 0:
+            admin = Auth(username='Admin', password='Password')
+            db.session.add(admin)
+            db.session.commit()
