@@ -1,45 +1,74 @@
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash
 import os
 
 # Add SQLAlchemy-Objekt
 db = SQLAlchemy()
 
+# Get and set the database URI and path.
 def get_db_uri_and_path():
-    # Pfad zur SQLite-Datenbank
+    # Path to the database file.
     db_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'local.db')
+    # Database URI in the format of 'sqlite:///path/to/database/file'.
     db_uri = f'sqlite:///{db_path}'
+    # Return the database URI and path to use in the app.
     return db_uri, db_path
-
-# Database model for the 'auth' table
-class Auth(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(20), unique=True, nullable=False)
-    password = db.Column(db.String(100), nullable=False)
-
-    def __repr__(self):
-        return f"Auth('{self.username}')"
 
 # Add the SQLite Database if not exist.
 def add_database(app):
+    # Get the database URI and path.
     db_uri, db_path = get_db_uri_and_path()
+    # Check if the app already has extensions and if SQLAlchemy is among them
     if not hasattr(app, 'extensions') or 'sqlalchemy' not in app.extensions:
+        # Set the database URI in the application's configuration
         app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
+        # Initialize SQLAlchemy for this application
         db.init_app(app)
 
+        # Create the database if it doesn't exist
         with app.app_context():
             if not os.path.exists(db_path):
                 db.create_all()
 
-# Create the 'auth' table if it doesn't exist and add the default admin user if no user exists.
-def create_auth_table(app):
+# Database model for the 'auth' table
+class Auth(db.Model):
+    # Define the table name and the columns.
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(20), unique=True, nullable=False)
+    password = db.Column(db.String(100), nullable=False)
+
+    # Define the __repr__ method to show the username when the object is printed. Just for debugging.
+    def __repr__(self):
+        return f"Auth('{self.username}')"
+
+# Database model for the 'databases' table
+class Databases(db.Model):
+    # Define the table name and the columns.
+    id = db.Column(db.Integer, primary_key=True)
+    db_type = db.Column(db.String(20), nullable=False)
+    name = db.Column(db.String(50), unique=True, nullable=False)
+    db_host = db.Column(db.String(50), nullable=False)
+    db_port = db.Column(db.Integer, nullable=False)
+    db_user = db.Column(db.String(50), nullable=False)
+    db_password = db.Column(db.String(100), nullable=False)  # Hier würde man wahrscheinlich das Passwort verschlüsseln
+    db_name = db.Column(db.String(500))  # Hier könnte man eine kommagetrennte Liste von DB-Namen speichern oder einen anderen Ansatz wählen
+
+    # Define the __repr__ method to show the name, type and host when the object is printed. Just for debugging.
+    def __repr__(self):
+        return f"DatabaseInfo('{self.name}', '{self.type}', '{self.host}')"
+
+# Create all the databases from the class definitions.
+def create_database_table(app):
     with app.app_context():
+        # Create all the tables.
         db.create_all()
 
-        # Überprüfen, ob die Tabelle leer ist
+        # For auth table
+        # Check if the table is empty and add the default admin user if no user exists.
         count = db.session.query(Auth).count()
 
-        # Falls die Tabelle leer ist, Standard-Admin-Benutzer hinzufügen
         if count == 0:
-            admin = Auth(username='Admin', password='Password')
+            hashed_password = generate_password_hash('Password', method='sha256')
+            admin = Auth(username='Admin', password=hashed_password)
             db.session.add(admin)
             db.session.commit()

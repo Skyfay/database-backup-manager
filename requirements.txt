@@ -1,3 +1,4 @@
 flask
 Flask-SQLAlchemy
+werkzeug
 livereload

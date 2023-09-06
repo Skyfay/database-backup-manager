@@ -1,5 +1,6 @@
 # Import the modules we need.
 from flask import Flask, render_template, request, redirect, url_for, session
+from werkzeug.security import check_password_hash
 from livereload import Server
 from server.database_setup import db, Auth
 from server import database_setup
@@ -13,10 +14,11 @@ app.secret_key = 'my_secret_key'
 database_setup.add_database(app)
 
 @app.route('/')
-def home():
+def dashboard():
     if 'username' in session:
         return render_template('index.html', username=session['username'], active_page='dashboard')
     return redirect(url_for('login'))
+
 
 @app.route('/databases')
 def databases():
@@ -33,15 +35,15 @@ def login():
         password = request.form['password']
 
         # Create the 'auth' table if it doesn't exist
-        database_setup.create_auth_table(app)
+        database_setup.create_database_table(app)
 
         # Perform authentication logic by checking the username and password in the 'auth' table
-        user = Auth.query.filter_by(username=username, password=password).first()
+        user = Auth.query.filter_by(username=username).first()
 
         # If the user exists, add the username to the session and redirect to the home page.
-        if user:
+        if user and check_password_hash(user.password, password):
             session['username'] = username
-            return redirect(url_for('home'))
+            return redirect(url_for('dashboard'))
 
         # If the user doesn't exist, show an error message.
         else:
