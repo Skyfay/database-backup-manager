@@ -1,3 +1,4 @@
+# Import the modules we need.
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash
 import os
@@ -50,8 +51,8 @@ class Databases(db.Model):
     db_host = db.Column(db.String(50), nullable=False)
     db_port = db.Column(db.Integer, nullable=False)
     db_user = db.Column(db.String(50), nullable=False)
-    db_password = db.Column(db.String(100), nullable=False)  # Hier würde man wahrscheinlich das Passwort verschlüsseln
-    db_name = db.Column(db.String(500))  # Hier könnte man eine kommagetrennte Liste von DB-Namen speichern oder einen anderen Ansatz wählen
+    db_password = db.Column(db.String(100), nullable=False) # Here hash the password
+    db_name = db.Column(db.String(500))  # Maybe add the names comma separated
 
     # Define the __repr__ method to show the name, type and host when the object is printed. Just for debugging.
     def __repr__(self):
