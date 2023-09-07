@@ -2,8 +2,12 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from werkzeug.security import check_password_hash
 from livereload import Server
-from server.database_setup import db, Auth
+from server.database_setup import db, Auth, Databases
 from server import database_setup
+
+from pymongo import MongoClient
+from pymysql.err import MySQLError
+from psycopg2 import OperationalError as PostgresOperationalError
 
 # Create the app.
 app = Flask(__name__)
@@ -20,24 +24,72 @@ def dashboard():
     return redirect(url_for('login'))
 
 
-@app.route('/databases')
+@app.route('/databases', methods=['GET', 'POST'])
 def databases():
-    if 'username' in session:
-        return render_template('databases.html', username=session['username'], active_page='databases')
-    return redirect(url_for('login'))
+    if 'username' not in session:
+        return redirect(url_for('login'))
+
+    error = None
+
+    if request.method == 'POST':
+        db_type = request.form['dropdown']
+        name = request.form['Add_DB_Name']
+        db_host = request.form['Add_DB_Host']
+        db_port = int(request.form['Add_DB_Port'])
+        db_user = request.form['Add_DB_User']
+        db_password = request.form['Add_DB_Password']
+        db_name = request.form['Add_DB_DB_Name']
+
+        # Überprüfung der Datenbankverbindung
+        try:
+            if db_type == 'MySQL':
+                # Verbindungslogik für MySQL
+                conn = mysql_connect(host=db_host, user=db_user, password=db_password, port=db_port)
+            elif db_type == 'PostgreSQL':
+                # Verbindungslogik für PostgreSQL
+                conn = postgres_connect(host=db_host, user=db_user, password=db_password, port=db_port)
+            elif db_type == 'MongoDB':
+                # Verbindungslogik für MongoDB
+                conn = MongoClient(host=db_host, port=db_port, username=db_user, password=db_password)
+            else:
+                session['error'] = "Ungültiger Datenbanktyp"
+                return redirect(url_for('databases'))
+
+            # Verbindung schließen, wenn erfolgreich
+            conn.close()
+
+        except (MySQLError, PostgresOperationalError, PyMongoError):
+            session['error'] = "Verbindung zur Datenbank konnte nicht hergestellt werden"
+            return redirect(url_for('databases'))
+
+        # Erstellen eines neuen Databases-Objekts
+        new_db = Databases(db_type=db_type, name=name, db_host=db_host, db_port=db_port, db_user=db_user, db_password=db_password, db_name=db_name)
+
+        # Hinzufügen zur Datenbank und Commit
+        db.session.add(new_db)
+        db.session.commit()
+
+        return redirect(url_for('databases'))
+
+    if 'error' in session:
+        error = session.pop('error')
+
+    return render_template('databases.html', username=session['username'], active_page='databases', error=error)
 
 # Add the login route.
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    show_error = False
+
     if request.method == 'POST':
         # Get the username and password from the form.
         username = request.form['username']
         password = request.form['password']
 
-        # Create the 'auth' table if it doesn't exist
+        # Create the 'auth' table if it doesn't exist.
         database_setup.create_database_table(app)
 
-        # Perform authentication logic by checking the username and password in the 'auth' table
+        # Perform authentication logic by checking the username and password in the 'auth' table.
         user = Auth.query.filter_by(username=username).first()
 
         # If the user exists, add the username to the session and redirect to the home page.
@@ -45,12 +97,19 @@ def login():
             session['username'] = username
             return redirect(url_for('dashboard'))
 
-        # If the user doesn't exist, show an error message.
+        # If the user doesn't exist, set the error flag in the session.
         else:
-            return render_template('login.html', show_error=True)
+            session['show_error'] = True
+            return redirect(url_for('login'))
 
-    # If the request method is GET, show the login page.
-    return render_template('login.html')
+    # If the request method is GET, check for the error flag in the session.
+    if 'show_error' in session:
+        show_error = True
+        # Remove the flag from the session after retrieving it.
+        session.pop('show_error')
+
+    return render_template('login.html', show_error=show_error)
+
 
 
 @app.route('/logout')

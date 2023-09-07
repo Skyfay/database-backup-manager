@@ -5,6 +5,22 @@
     background-color: var(--background-color);
 }
 
+.btn {
+    margin-top: 45px;
+    width: 168px;
+    height: 48px;
+    border-radius: var(--border-radius);
+    border-color: transparent;
+    color: var(--white);
+    background-color: var(--primary-color);
+    font-size: 14px;
+}
+
+.btn:hover {
+    background-color: var(--btn-hover);
+}
+
+
 
 /*
 
@@ -64,6 +80,8 @@
     width: 629px;
     height: 41px;
     display: flex;
+    justify-content: center;
+    align-items: center;
     margin-top: 14px;
 }
 
@@ -81,4 +99,109 @@
     padding-left: 17px;
     padding-right: 17px;
 }
+
+.container-input-field {
+    background-color: var(--background-color);
+    border-style: solid;
+    border-color: var(--placeholder);
+    border-width: 1px;
+    border-radius: var(--border-radius);
+    padding-left: 17px;
+    padding-right: 17px;
+    width: 444px;
+    height: 41px;
+}
+
+.container-form-button {
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    margin-right: 48px;
+    margin-top: 60px;
+}
+
+
+/*
+
+    Dropdown Menu (Start)
+
+ */
+
+#image-select {
+    display: none;
+}
+
+.select-box {
+    display: flex;
+    position: relative;
+    width: 100%;
+    align-items: center;
+    justify-content: left;
+    height: 100%;
+}
+
+.select-box svg {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    fill: var(--placeholder);
+}
+
+.custom-select {
+    background-color: var(--background-color);
+    border-style: solid;
+    border-color: var(--placeholder);
+    border-width: 1px;
+    border-radius: var(--border-radius);
+    padding-left: 17px;
+    padding-right: 17px;
+    width: 444px;
+    height: 41px;
+}
+
+.select-box img {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+
+.dropdown-list {
+    position: absolute;
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+    width: 444px;
+    display: none;
+    border: 1px solid var(--placeholder);
+    border-radius: var(--border-radius);
+    background-color: var(--background-color);
+}
+
+.dropdown-item {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    height: 100%;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.dropdown-item img {
+    width: 25px;
+    height: 25px;
+    padding-right: 10px;
+}
+
+.dropdown-item:hover {
+    background-color: var(--white);
+    border-radius: var(--border-radius);
+}
+
+/*
+
+    Dropdown Menu (Stop)
+
+ */
+
 
