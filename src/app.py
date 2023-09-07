@@ -6,8 +6,12 @@ from server.database_setup import db, Auth, Databases
 from server import database_setup
 
 from pymongo import MongoClient
-from pymysql.err import MySQLError
+from pymongo.errors import PyMongoError
+import pymysql
+from pymysql import MySQLError
+import psycopg2
 from psycopg2 import OperationalError as PostgresOperationalError
+
 
 # Create the app.
 app = Flask(__name__)
@@ -42,14 +46,11 @@ def databases():
 
         # Überprüfung der Datenbankverbindung
         try:
-            if db_type == 'MySQL':
-                # Verbindungslogik für MySQL
-                conn = mysql_connect(host=db_host, user=db_user, password=db_password, port=db_port)
-            elif db_type == 'PostgreSQL':
-                # Verbindungslogik für PostgreSQL
-                conn = postgres_connect(host=db_host, user=db_user, password=db_password, port=db_port)
-            elif db_type == 'MongoDB':
-                # Verbindungslogik für MongoDB
+            if db_type == 'mysql':
+                conn = pymysql.connect(host=db_host, user=db_user, password=db_password, port=db_port)
+            elif db_type == 'postgresql':
+                conn = psycopg2.connect(host=db_host, user=db_user, password=db_password, port=db_port)
+            elif db_type == 'mongodb':
                 conn = MongoClient(host=db_host, port=db_port, username=db_user, password=db_password)
             else:
                 session['error'] = "Ungültiger Datenbanktyp"
@@ -58,7 +59,7 @@ def databases():
             # Verbindung schließen, wenn erfolgreich
             conn.close()
 
-        except (MySQLError, PostgresOperationalError, PyMongoError):
+        except (MySQLError, PostgresOperationalError, PyMongoError) as e:
             session['error'] = "Verbindung zur Datenbank konnte nicht hergestellt werden"
             return redirect(url_for('databases'))
 
