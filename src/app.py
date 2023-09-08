@@ -3,14 +3,8 @@ from flask import Flask, render_template, request, redirect, url_for, session
 from werkzeug.security import check_password_hash
 from livereload import Server
 from server.database_setup import db, Auth, Databases
+from server.databases import test_mysql_connection, test_postgresql_connection
 from server import database_setup
-
-from pymongo import MongoClient
-from pymongo.errors import PyMongoError
-import pymysql
-from pymysql import MySQLError
-import psycopg2
-from psycopg2 import OperationalError as PostgresOperationalError
 
 
 # Create the app.
@@ -47,20 +41,26 @@ def databases():
         # Überprüfung der Datenbankverbindung
         try:
             if db_type == 'mysql':
-                conn = pymysql.connect(host=db_host, user=db_user, password=db_password, port=db_port)
+                success, message = test_mysql_connection(db_host, db_user, db_password, db_port)
+                if not success:
+                    session['error'] = message
+                    return redirect(url_for('databases'))
             elif db_type == 'postgresql':
-                conn = psycopg2.connect(host=db_host, user=db_user, password=db_password, port=db_port)
+                success, message = test_postgresql_connection(db_host, db_user, db_password, db_port)
+                if not success:
+                    session['error'] = message
+                    return redirect(url_for('databases'))
             elif db_type == 'mongodb':
-                conn = MongoClient(host=db_host, port=db_port, username=db_user, password=db_password)
+                success, message = test_mysql_connection(db_host, db_user, db_password, db_port)
+                if not success:
+                    session['error'] = message
+                    return redirect(url_for('databases'))
             else:
                 session['error'] = "Ungültiger Datenbanktyp"
                 return redirect(url_for('databases'))
 
-            # Verbindung schließen, wenn erfolgreich
-            conn.close()
-
-        except (MySQLError, PostgresOperationalError, PyMongoError) as e:
-            session['error'] = "Verbindung zur Datenbank konnte nicht hergestellt werden"
+        except Exception as e:
+            session['error'] = f"Verbindung zur Datenbank konnte nicht hergestellt werden: {str(e)}"
             return redirect(url_for('databases'))
 
         # Erstellen eines neuen Databases-Objekts

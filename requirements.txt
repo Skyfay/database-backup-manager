@@ -2,6 +2,7 @@ flask
 Flask-SQLAlchemy
 werkzeug
 livereload
+mysql-connector-python
 pymongo
 pymysql
 psycopg2-binary
