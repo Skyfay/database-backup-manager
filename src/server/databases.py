@@ -4,6 +4,9 @@ from mysql.connector import Error
 import psycopg2
 from psycopg2 import OperationalError
 
+from pymongo import MongoClient
+from pymongo.errors import PyMongoError
+
 def test_mysql_connection(host_name, user_name, user_password, port):
     try:
         connection = mysql.connector.connect(
@@ -31,4 +34,19 @@ def test_postgresql_connection(host_name, user_name, user_password, port):
             connection.close()
             return True, f"Erfolgreich mit dem Server {host_name} auf Port {port} verbunden."
     except OperationalError as e:
+        return False, f"Der Fehler '{e}' trat auf."
+
+def test_mongodb_connection(host_name, user_name, user_password, port):
+    try:
+        connection = MongoClient(
+            host=host_name,
+            port=port,
+            username=user_name,
+            password=user_password
+        )
+        # Der ismaster-Befehl wird verwendet, um eine Verbindung zum Server zu testen
+        if connection.admin.command('ismaster'):
+            connection.close()
+            return True, f"Erfolgreich mit dem Server {host_name} auf Port {port} verbunden."
+    except PyMongoError as e:
         return False, f"Der Fehler '{e}' trat auf."

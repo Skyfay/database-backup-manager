@@ -3,7 +3,7 @@ from flask import Flask, render_template, request, redirect, url_for, session
 from werkzeug.security import check_password_hash
 from livereload import Server
 from server.database_setup import db, Auth, Databases
-from server.databases import test_mysql_connection, test_postgresql_connection
+from server.databases import test_mysql_connection, test_postgresql_connection, test_mongodb_connection
 from server import database_setup
 
 
@@ -29,6 +29,24 @@ def databases():
 
     error = None
 
+    # Abschnitt, der alle Verbindungsstatus abruft und speichert (hinzugefügt)
+    all_databases = Databases.query.all()
+    db_status_list = []
+    for db in all_databases:
+        if db.db_type == 'mysql':
+            success, message = test_mysql_connection(db.db_host, db.db_user, db.db_password, db.db_port)
+        elif db.db_type == 'postgresql':
+            success, message = test_postgresql_connection(db.db_host, db.db_user, db.db_password, db.db_port)
+        elif db.db_type == 'mongodb':
+            success, message = test_mongodb_connection(db.db_host, db.db_user, db.db_password, db.db_port)
+        else:
+            success = False
+        db_status_list.append({
+            'name': db.name,
+            'host': db.db_host,
+            'status': '#5BEA8B' if success else '#EA5B5B'
+        })
+
     if request.method == 'POST':
         db_type = request.form['dropdown']
         name = request.form['Add_DB_Name']
@@ -37,6 +55,12 @@ def databases():
         db_user = request.form['Add_DB_User']
         db_password = request.form['Add_DB_Password']
         db_name = request.form['Add_DB_DB_Name']
+
+        # Überprüfen, ob ein Datensatz mit demselben Namen bereits existiert
+        existing_db = Databases.query.filter_by(name=name).first()
+        if existing_db:
+            session['error'] = "Ein Datensatz mit diesem Namen existiert bereits."
+            return redirect(url_for('databases'))
 
         # Überprüfung der Datenbankverbindung
         try:
@@ -51,7 +75,7 @@ def databases():
                     session['error'] = message
                     return redirect(url_for('databases'))
             elif db_type == 'mongodb':
-                success, message = test_mysql_connection(db_host, db_user, db_password, db_port)
+                success, message = test_mongodb_connection(db_host, db_user, db_password, db_port)
                 if not success:
                     session['error'] = message
                     return redirect(url_for('databases'))
@@ -75,7 +99,7 @@ def databases():
     if 'error' in session:
         error = session.pop('error')
 
-    return render_template('databases.html', username=session['username'], active_page='databases', error=error)
+    return render_template('databases.html', username=session['username'], active_page='databases', error=error, db_status_list=db_status_list)
 
 # Add the login route.
 @app.route('/login', methods=['GET', 'POST'])

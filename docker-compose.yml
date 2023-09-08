@@ -45,6 +45,18 @@ services:
       network:
         ipv4_address: 172.28.0.4
 
+  mongo:
+    image: mongo:latest
+    container_name: my_test_mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+    ports:
+      - "27017:27017"
+    networks:
+      network:
+        ipv4_address: 172.28.0.5
+
 networks:
   network:
     driver: bridge

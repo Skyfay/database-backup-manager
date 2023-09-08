@@ -205,3 +205,35 @@
  */
 
 
+/*
+
+    Data Container CSS (Start)
+
+ */
+
+.data-container-entry {
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    padding-top: 17px;
+}
+
+.data-container-button {
+    display: flex;
+    justify-items: left;
+    align-items: center;
+    padding-left: 10px;
+    width: 360px;
+    height: 44px;
+    margin-bottom: 10px;
+    background-color: var(--background-color);
+    border-style: none;
+}
+
+/*
+
+    Data Container CSS (Stop)
+
+ */
+
+
