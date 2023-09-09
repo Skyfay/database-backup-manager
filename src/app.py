@@ -101,6 +101,52 @@ def databases():
 
     return render_template('databases.html', username=session['username'], active_page='databases', error=error, db_status_list=db_status_list)
 
+
+@app.route('/databases/update/<string:db_name>', methods=['GET', 'POST'])
+
+def update_database(db_name):
+    if 'username' not in session:
+        return redirect(url_for('login'))
+
+    db_entry = Databases.query.filter_by(name=db_name).first()
+
+    if db_entry is None:
+        return "Datenbank nicht gefunden", 404
+
+    if request.method == 'POST':
+        # Aktualisieren Sie die Eigenschaften der Datenbank hier.
+        db_entry.db_host = request.form.get('Add_DB_Host', db_entry.db_host)
+        db_entry.name = request.form.get('Add_DB_Name', db_entry.name)
+        db_entry.db_type = request.form.get('Add_DB_Type', db_entry.db_type)
+        db_entry.db_port = int(request.form.get('Add_DB_Port', db_entry.db_port))
+        db_entry.db_user = request.form.get('Add_DB_User', db_entry.db_user)
+        db_entry.db_password = request.form.get('Add_DB_Password', db_entry.db_password)
+        db_entry.db_name = request.form.get('Add_DB_DB_Name', db_entry.db_name)
+
+        # Speichern der Änderungen
+        db.session.commit()
+
+        return redirect(url_for('databases'))
+
+    return render_template('DatabaseEdit.html', db_entry=db_entry, modal="Datenbank")
+
+
+@app.route('/databases/delete/<string:db_name>', methods=['POST'])
+def delete_database(db_name):
+    if 'username' not in session:
+        return redirect(url_for('login'))
+
+    db_entry = Databases.query.filter_by(name=db_name).first()
+
+    if db_entry is None:
+        return "Datenbank nicht gefunden", 404
+
+    db.session.delete(db_entry)
+    db.session.commit()
+
+    return redirect(url_for('databases'))
+
+
 # Add the login route.
 @app.route('/login', methods=['GET', 'POST'])
 def login():

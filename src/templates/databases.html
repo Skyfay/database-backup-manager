@@ -31,7 +31,7 @@
             </div>
             <div class="data-container-entry">
                 {% for db_status in db_status_list %}
-                <button class="data-container-button" onclick="window.location.href='/update_db/{{ db_status.name }}'">
+                <button class="data-container-button" onclick="window.location.href='/databases/update/{{ db_status.name }}'">
                     <span class="db-name">{{ db_status.name }}</span>
                     <span class="db-host">{{ db_status.host }}</span>
                     <span class="db-status" style="background-color: {{ db_status.status }};"></span>

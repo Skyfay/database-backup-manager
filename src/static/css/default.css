@@ -18,6 +18,7 @@
     --sidebar-button: #676D7C;
     --icon-color: #969ca6;
     --error-color: #c85050;
+    --error-color-hover: #E6698FFF;
 }
 
 ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
