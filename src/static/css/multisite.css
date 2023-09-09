@@ -140,6 +140,10 @@
     height: 100%;
 }
 
+.select-box:hover {
+    cursor: pointer;
+}
+
 .select-box svg {
     position: absolute;
     right: 0;
@@ -227,7 +231,15 @@
     height: 44px;
     margin-bottom: 10px;
     background-color: var(--background-color);
-    border-style: none;
+    border-style: solid;
+    border-width: 1px;
+    border-color: var(--placeholder);
+    border-radius: var(--border-radius);
+}
+
+.data-container-button:hover {
+    cursor: pointer;
+    background-color: var(--background-hover);
 }
 
 /*
