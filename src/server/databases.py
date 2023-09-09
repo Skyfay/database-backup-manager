@@ -13,7 +13,8 @@ def test_mysql_connection(host_name, user_name, user_password, port):
             host=host_name,
             user=user_name,
             password=user_password,
-            port=port
+            port=port,
+            connection_timeout=1
         )
         if connection.is_connected():
             connection.close()
@@ -28,7 +29,8 @@ def test_postgresql_connection(host_name, user_name, user_password, port):
             user=user_name,
             password=user_password,
             port=port,
-            database="postgres"  # Verbinden Sie mit der Standard-Postgres-Datenbank
+            database="postgres",  # Verbinden Sie mit der Standard-Postgres-Datenbank
+            connect_timeout = 1
         )
         if connection:
             connection.close()
@@ -42,7 +44,8 @@ def test_mongodb_connection(host_name, user_name, user_password, port):
             host=host_name,
             port=port,
             username=user_name,
-            password=user_password
+            password=user_password,
+            serverSelectionTimeoutMS = 1000
         )
         # Der ismaster-Befehl wird verwendet, um eine Verbindung zum Server zu testen
         if connection.admin.command('ismaster'):
