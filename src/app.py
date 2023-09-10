@@ -32,18 +32,18 @@ def databases():
     # Abschnitt, der alle Verbindungsstatus abruft und speichert (hinzugefügt)
     all_databases = Databases.query.all()
     db_status_list = []
-    for db in all_databases:
-        if db.db_type == 'mysql':
-            success, message = test_mysql_connection(db.db_host, db.db_user, db.db_password, db.db_port)
-        elif db.db_type == 'postgresql':
-            success, message = test_postgresql_connection(db.db_host, db.db_user, db.db_password, db.db_port)
-        elif db.db_type == 'mongodb':
-            success, message = test_mongodb_connection(db.db_host, db.db_user, db.db_password, db.db_port)
+    for dbs in all_databases:
+        if dbs.db_type == 'mysql':
+            success, message = test_mysql_connection(dbs.db_host, dbs.db_user, dbs.db_password, dbs.db_port)
+        elif dbs.db_type == 'postgresql':
+            success, message = test_postgresql_connection(dbs.db_host, dbs.db_user, dbs.db_password, dbs.db_port)
+        elif dbs.db_type == 'mongodb':
+            success, message = test_mongodb_connection(dbs.db_host, dbs.db_user, dbs.db_password, dbs.db_port)
         else:
             success = False
         db_status_list.append({
-            'name': db.name,
-            'host': db.db_host,
+            'name': dbs.name,
+            'host': dbs.db_host,
             'status': '#5BEA8B' if success else '#EA5B5B'
         })
 
@@ -128,7 +128,7 @@ def update_database(db_name):
 
         return redirect(url_for('databases'))
 
-    return render_template('DatabaseEdit.html', db_entry=db_entry, modal="Datenbank")
+    return render_template('DatabaseEdit.html', db_entry=db_entry, active_page='databases', modal="Datenbank")
 
 
 @app.route('/databases/delete/<string:db_name>', methods=['POST'])

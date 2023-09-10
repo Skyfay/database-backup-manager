@@ -43,14 +43,14 @@
     margin-bottom: auto;  /* Automatischer unterer Rand, um den Text oben zu halten */
 }
 
-.button-container {
+.cnf-button-container {
     display: flex;
     justify-content: center;
     width: 100%;
     margin-top: 150px;
 }
 
-.button-container .btn {
+.cnf-button-container .btn {
     margin: 0 10px;
 }
 

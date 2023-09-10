@@ -10,7 +10,7 @@
 <div id="confirm-modal" class="modal">
     <div class="modal-content">
         <p>Sind Sie sicher, dass Sie diese {{ modal }} löschen möchten?</p>
-        <div class="button-container">
+        <div class="cnf-button-container">
             <button class="btn delete" onclick="submitDelete()">Löschen</button>
             <button class="btn close" onclick="closeModal('confirm-modal')">Abbrechen</button>
         </div>
@@ -27,9 +27,11 @@
         document.body.classList.remove('blur-background');
     }
 
-    function openModal(modalId) {
-        document.getElementById(modalId).style.display = 'block';
-        document.body.classList.add('blur-background');
-    }
+function openModal(modalId, event) {
+    event.preventDefault();
+    document.getElementById(modalId).style.display = 'block';
+    document.body.classList.add('blur-background');
+}
+
 </script>
 </html>

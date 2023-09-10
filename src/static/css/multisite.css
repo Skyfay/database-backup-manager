@@ -20,7 +20,25 @@
     background-color: var(--btn-hover);
 }
 
+.btn-delete {
+    margin-top: 45px;
+    width: 168px;
+    height: 48px;
+    border-radius: var(--border-radius);
+    border-color: transparent;
+    color: var(--white);
+    background-color: var(--error-color);
+    font-size: 14px;
+}
 
+.btn-delete:hover {
+    background-color: var(--error-color-hover);
+    cursor: pointer;
+}
+
+.btn-right {
+    margin-left: 23px;
+}
 
 /*
 
@@ -120,6 +138,38 @@
     margin-top: 60px;
 }
 
+/*
+
+    Main Edit Container CSS (Start)
+
+ */
+.element-container-edit {
+    margin-left: 426px;
+    display: flex;
+    margin-top: 50px;
+}
+
+.input-disabled {
+    pointer-events: none;
+    color: var(--placeholder);
+}
+
+.container-form-button-edit {
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    margin-right: 48px;
+    margin-top: 60px;
+}
+
+.setup-container-edit {
+    background-color: var(--container-color);
+    width: 702px;
+    max-width: 702px;
+    height: 664px;
+    max-height: 664px;
+    border-radius: var(--border-radius);
+}
 
 /*
 

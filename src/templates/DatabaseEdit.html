@@ -2,57 +2,106 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Update Database</title>
+    <title>Edit Database {{ db_entry.name }}</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='../static/css/default.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='../static/css/multisite.css') }}">
+    <!-- to build the page with WebStorm -->
+    <link rel="stylesheet" href="../static/css/default.css">
+    <link rel="stylesheet" href="../static/css/multisite.css">
 </head>
 <body>
 
-    <h1>Update Database: {{ db_entry.name }}</h1>
+{% include 'sidebar.html' %}
 
-    <form method="post">
-        <!-- Datenbanktyp -->
-        <label for="Add_DB_Type">DB Type:</label>
-        <input type="text" id="Add_DB_Type" name="Add_DB_Type" value="{{ db_entry.db_type }}" placeholder="DB Type">
-        <br>
 
-        <!-- Datenbankname -->
-        <label for="Add_DB_Name">Name:</label>
-        <input type="text" id="Add_DB_Name" name="Add_DB_Name" value="{{ db_entry.name }}" placeholder="Name">
-        <br>
+<div class="main-container">
 
-        <!-- Host -->
-        <label for="Add_DB_Host">Host:</label>
-        <input type="text" id="Add_DB_Host" name="Add_DB_Host" value="{{ db_entry.db_host }}" placeholder="Host">
-        <br>
+    <div class="top-container">
+        <a>Overview</a>
+    </div>
 
-        <!-- Port -->
-        <label for="Add_DB_Port">Port:</label>
-        <input type="number" id="Add_DB_Port" name="Add_DB_Port" value="{{ db_entry.db_port }}" placeholder="Port">
-        <br>
+    <div class="element-container-edit">
 
-        <!-- Benutzer -->
-        <label for="Add_DB_User">User:</label>
-        <input type="text" id="Add_DB_User" name="Add_DB_User" value="{{ db_entry.db_user }}" placeholder="User">
-        <br>
+        <div class="setup-container-edit">
+            <div class="container-text">
+                <a>Edit Database {{ db_entry.name }}</a>
+            </div>
 
-        <!-- Passwort -->
-        <label for="Add_DB_Password">Password:</label>
-        <input type="password" id="Add_DB_Password" name="Add_DB_Password" value="{{ db_entry.db_password }}" placeholder="Password">
-        <br>
+            <div class="container-form">
+                <form method="post">
+                    <div class="container-form-items">
+                        <!-- Datenbanktyp -->
+                        <label class="container-form-items-text" for="Add_DB_Type">Type</label>
+                        <input class="container-input-field input-disabled" type="text" id="Add_DB_Type"
+                               name="Add_DB_Type" value="{{ db_entry.db_type }}"
+                               placeholder="DB Type">
+                        <br>
+                    </div>
 
-        <!-- Datenbankname -->
-        <label for="Add_DB_DB_Name">DB Name:</label>
-        <input type="text" id="Add_DB_DB_Name" name="Add_DB_DB_Name" value="{{ db_entry.db_name }}" placeholder="DB Name">
-        <br>
+                    <div class="container-form-items"><!-- Datenbankname -->
+                        <label class="container-form-items-text" for="Add_DB_Name">Name</label>
+                        <input class="container-input-field" type="text" id="Add_DB_Name" name="Add_DB_Name"
+                               value="{{ db_entry.name }}"
+                               placeholder="Name">
+                        <br>
+                    </div>
 
-        <!-- Speichern-Button -->
-        <button type="submit">Speichern</button>
-    </form>
+                    <div class="container-form-items">
+                        <!-- Host -->
+                        <label class="container-form-items-text" for="Add_DB_Host">Host</label>
+                        <input class="container-input-field" type="text" id="Add_DB_Host" name="Add_DB_Host"
+                               value="{{ db_entry.db_host }}"
+                               placeholder="Host">
+                        <br>
+                    </div>
+                    <div class="container-form-items">
+                        <!-- Port -->
+                        <label class="container-form-items-text" for="Add_DB_Port">Port</label>
+                        <input class="container-input-field" type="number" id="Add_DB_Port" name="Add_DB_Port"
+                               value="{{ db_entry.db_port }}"
+                               placeholder="Port">
+                        <br>
+                    </div>
+                    <div class="container-form-items">
+                        <!-- Benutzer -->
+                        <label class="container-form-items-text" for="Add_DB_User">User</label>
+                        <input class="container-input-field" type="text" id="Add_DB_User" name="Add_DB_User"
+                               value="{{ db_entry.db_user }}"
+                               placeholder="User">
+                        <br>
+                    </div>
+                    <div class="container-form-items">
+                        <!-- Passwort -->
+                        <label class="container-form-items-text" for="Add_DB_Password">Password</label>
+                        <input class="container-input-field" type="password" id="Add_DB_Password" name="Add_DB_Password"
+                               value="{{ db_entry.db_password }}"
+                               placeholder="Password">
+                        <br>
+                    </div>
+                    <div class="container-form-items">
 
-    <form id="delete-form" action="{{ url_for('delete_database', db_name=db_entry.name) }}" method="post" style="display: none">
-    <button type="submit">Löschen</button>
-</form>
+                        <!-- Datenbankname -->
+                        <label class="container-form-items-text" for="Add_DB_DB_Name">Database name</label>
+                        <input class="container-input-field" type="text" id="Add_DB_DB_Name" name="Add_DB_DB_Name"
+                               value="{{ db_entry.db_name }}"
+                               placeholder="DB Name">
+                        <br>
+                    </div>
+                    <div class="container-form-button-edit">
+                        <button class="btn-delete" onclick="openModal('confirm-modal', event)">Löschen</button>
+                        <button class="btn btn-right" type="submit">Speichern</button>
+                    </div>
+                </form>
+            </div>
+            <form id="delete-form" action="{{ url_for('delete_database', db_name=db_entry.name) }}" method="post"
+                  style="display: none">
+                <button type="submit">Löschen</button>
+            </form>
 
-<button onclick="openModal('confirm-modal')">Löschen</button>
+        </div>
+    </div>
+</div>
 
 {% include 'ConfirmationModal.html' %}
 
