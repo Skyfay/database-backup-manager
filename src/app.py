@@ -128,7 +128,7 @@ def update_database(db_name):
 
         return redirect(url_for('databases'))
 
-    return render_template('DatabaseEdit.html', db_entry=db_entry, active_page='databases', modal="Datenbank")
+    return render_template('DatabaseEdit.html', db_entry=db_entry, active_page='databases',modal="Datenbank")
 
 
 @app.route('/databases/delete/<string:db_name>', methods=['POST'])

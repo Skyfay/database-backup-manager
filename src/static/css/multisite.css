@@ -40,6 +40,26 @@
     margin-left: 23px;
 }
 
+.close-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 20px;
+    background-color: transparent;
+    border-style: none;
+}
+
+.close-btn:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+
+.close-btn svg {
+    width: 24px;
+    height: 24px;
+}
+
 /*
 
     Main Container CSS (Start)
@@ -143,8 +163,17 @@
     Main Edit Container CSS (Start)
 
  */
+
+.container-text-edit {
+    display: flex;
+    justify-content: space-between; /* Ausrichten des ersten und letzten Elements an den Rändern des Containers */
+    align-items: center; /* Vertikale Ausrichtung */
+    margin-left: 24px;
+    margin-top: 16px;
+}
+
 .element-container-edit {
-    margin-left: 426px;
+    /*margin-left: 426px;*/
     display: flex;
     margin-top: 50px;
 }
