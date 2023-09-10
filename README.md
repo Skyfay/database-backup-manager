@@ -24,7 +24,7 @@
 </div>
 
 <h3 align="center">Description</h3>
-Database Backup Manager is to backup databases such as MySQL, PostgreSQL or MongoDB. 
+Database Backup Manager is a software to backup databases such as MySQL, PostgreSQL or MongoDB. 
 The backup can then be uploaded to any destination such as a local path or server using FTP/S, SMB, SSH or to cloud services such as S3 storage, Dropbox, Google Drive, OneDrive, Box or Microsoft Azure.
 Of course, you can also configure notifications, which can then be sent to Discord, email, webhook or other providers. <br/> <br/>
 
