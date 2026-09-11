@@ -75,7 +75,7 @@ For the full endpoint documentation with request/response schemas, examples, and
 | :--- | :--- | :--- |
 | Jobs | `GET/POST/PUT/DELETE /api/jobs` | CRUD + trigger backups |
 | Executions | `GET /api/executions/:id` | Poll execution status |
-| History | `GET /api/history` | List execution history |
+| History | `GET /api/history` | List execution history, paged with `page`, `pageSize`, `scope`, `type`, `status`, `trigger`, `search` and `facets` |
 | Adapters | `GET/POST/PUT/DELETE /api/adapters` | Sources, destinations & notifications |
 | Connection Testing | `POST /api/adapters/test-connection` | Test adapter connections |
 | Storage Explorer | `GET/POST/DELETE /api/storage/:id/*` | Browse, download, delete, restore backups |

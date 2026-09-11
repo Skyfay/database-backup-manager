@@ -2,6 +2,26 @@
 
 All notable changes to DBackup are documented here.
 
+## vNEXT
+*Release: In Progress*
+
+### 🐛 Bug Fixes
+
+- **history**: Activity Logs, System Tasks and Notification Logs now page through the whole history on the server instead of stopping at the newest 100 entries. Nothing was ever deleted, older runs were only hidden.
+- **history**: The Status filter on Activity Logs and System Tasks now offers **Partial**, which was missing even though partial runs appear in the list.
+
+### 🔄 Changed
+
+- **api**: `GET /api/history` accepts `page`, `pageSize`, `scope`, `type`, `status`, `trigger`, `search` and `facets` query parameters and returns the total count. Without parameters it still returns the newest 100 executions.
+
+### 🐳 Docker
+
+- **Image**: `skyfay/dbackup:vNEXT`
+- **Also tagged as**: `latest`, `vNEXT`
+- **CI Image**: `skyfay/dbackup:ci`
+- **Platforms**: linux/amd64, linux/arm64
+
+
 ## v3.3.0 - Azure SQL Database Support, S3 Upload Rework and General Improvements
 *Released: Aug 15, 2026*
 
